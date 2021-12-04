@@ -1,10 +1,11 @@
 
+import { useState } from 'react';
 import './App.css';
-import ExpenseItem from './components/Expenses/ExpenseItem';
+import Expenses from './components/Expenses/Expenses';
 import NewExpense from './components/NewExpense/NewExpense';
-import Card from './components/UI/Card';
 function App() {
-  const expenses = [
+ 
+  const DUMMY_EXPENSE = [
     {
       id: 'e1',
       title: 'Toilet Paper',
@@ -25,14 +26,20 @@ function App() {
       date: new Date(2021, 5, 12),
     },
   ];
+  const [expenses, setExpenses] = useState(DUMMY_EXPENSE)
+  const addExpenseDataHandler=(expenseData)=>{
+    console.log('in App.js');   
+    setExpenses((prevExpenses)=>{
+      return [expenseData,...prevExpenses];
+    })
+
+  }
   return (
     
-    <Card className="expenses">
-      <NewExpense/>
-    {  expenses.map((expense) => (
-        <ExpenseItem key={expense.id} {...expense} />
-      ))  }    
-    </Card>
+    <div>
+      <NewExpense onAddExpense={addExpenseDataHandler}/>
+      <Expenses items={expenses} />
+    </div>
   );
 }
 
